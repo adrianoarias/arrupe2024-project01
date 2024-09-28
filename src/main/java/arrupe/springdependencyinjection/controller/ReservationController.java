@@ -1,5 +1,6 @@
 package arrupe.springdependencyinjection.controller;
 
+import arrupe.springdependencyinjection.dto.ReservationDto;
 import arrupe.springdependencyinjection.model.Reservation;
 import arrupe.springdependencyinjection.service.ReservationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,8 +21,16 @@ public class ReservationController {
 
     @PostMapping
     @Operation(summary = "Create reservation")
-    public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation) {
-        return ResponseEntity.ok(reservationService.createReservation(reservation));
+    public ResponseEntity<Reservation> createReservation(@RequestBody ReservationDto reservation) {
+
+        return ResponseEntity.ok(reservationService.createReservation(
+                new Reservation(
+                        0,
+                        reservation.getGuestName(),
+                        reservation.getCheckInDate(),
+                        reservation.getCheckOutDate()
+                )
+        ));
     }
 
     @GetMapping("/{reservationId}")
